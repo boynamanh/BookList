@@ -1,0 +1,4 @@
+#Thu Nov 04 11:42:25 ICT 2021
+base.0=/Users/ducnh13/Desktop/BookLocally/android/app/build/intermediates/dex/release/mergeDexRelease/classes.dex
+path.0=classes.dex
+renamed.0=classes.dex

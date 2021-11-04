@@ -1,0 +1,6 @@
+module Pods_BookLocally_BookLocallyTests {
+  umbrella header "Pods-BookLocally-BookLocallyTests-umbrella.h"
+
+  export *
+  module * { export * }
+}

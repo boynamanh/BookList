@@ -1,0 +1,12 @@
+{
+  "book-locally": {
+    "common": {
+      "emptyData": "Empty Data"
+    },
+    "title": {
+      "tabbar": "Book Locally",
+      "chapter": "Chapter List",
+      "highlight": "Highlight List"
+    }
+  }
+}

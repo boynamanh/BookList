@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/BookLocally.iml" filepath="$PROJECT_DIR$/.idea/modules/BookLocally.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/BookLocally.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/BookLocally.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-441948895/BookLocally.react-native-community_async-storage.iml" filepath="$PROJECT_DIR$/.idea/modules/-441948895/BookLocally.react-native-community_async-storage.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1339639239/BookLocally.react-native-gesture-handler.iml" filepath="$PROJECT_DIR$/.idea/modules/-1339639239/BookLocally.react-native-gesture-handler.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1748248674/BookLocally.react-native-safe-area-context.iml" filepath="$PROJECT_DIR$/.idea/modules/1748248674/BookLocally.react-native-safe-area-context.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/382876410/BookLocally.react-native-screens.iml" filepath="$PROJECT_DIR$/.idea/modules/382876410/BookLocally.react-native-screens.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1084174397/BookLocally.react-native-vector-icons.iml" filepath="$PROJECT_DIR$/.idea/modules/1084174397/BookLocally.react-native-vector-icons.iml" />
+    </modules>
+  </component>
+</project>
