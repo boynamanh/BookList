@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>In-App WebView Location</title>
+</head>
+<body>
+    <button onclick="requestLocation()">Lấy vị trí từ App</button>
+    <div id="result">Chưa có dữ liệu</div>
+
+    <script>
+        // 1. Hàm Callback hứng dữ liệu do Native App trả về
+        window.onNativeLocationReceived = function(lat, lng, accuracy) {
+            document.getElementById('result').innerHTML = 
+                `<b>Tọa độ Native:</b> ${lat}, ${lng}<br><b>Sai số:</b> ${accuracy}m`;
+        };
+
+        // 2. Hàm gọi sang Native App
+        function requestLocation() {
+            document.getElementById('result').innerText = "Đang xin tọa độ từ App...";
+
+            // Kiểm tra Android Native Bridge
+            if (window.AndroidBridge && typeof window.AndroidBridge.getGPS === 'function') {
+                window.AndroidBridge.getGPS();
+            } 
+            // Kiểm tra iOS Native Bridge (WKWebView)
+            else if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.getGPS) {
+                window.webkit.messageHandlers.getGPS.postMessage(null);
+            } 
+            // Fallback: Mở bằng trình duyệt ngoài
+            else {
+                fallbackWebLocation();
+            }
+        }
+
+        function fallbackWebLocation() {
+            if ("geolocation" in navigator) {
+                navigator.geolocation.getCurrentPosition(
+                    pos => window.onNativeLocationReceived(pos.coords.latitude, pos.coords.longitude, pos.coords.accuracy),
+                    err => document.getElementById('result').innerText = "Lỗi web: " + err.message
+                );
+            }
+        }
+    </script>
+</body>
+</html>
