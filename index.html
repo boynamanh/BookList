@@ -3,45 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>In-App WebView Location</title>
+    <title>Zalo GPS Tracker</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 10px; background: #f0f2f5; }
+        .card { background: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+        #map { height: 300px; width: 100%; margin-top: 10px; border-radius: 8px; }
+        .info { font-size: 14px; line-height: 1.6; }
+    </style>
 </head>
 <body>
-    <button onclick="requestLocation()">Lấy vị trí từ App</button>
-    <div id="result">Chưa có dữ liệu</div>
 
-    <script>
-        // 1. Hàm Callback hứng dữ liệu do Native App trả về
-        window.onNativeLocationReceived = function(lat, lng, accuracy) {
-            document.getElementById('result').innerHTML = 
-                `<b>Tọa độ Native:</b> ${lat}, ${lng}<br><b>Sai số:</b> ${accuracy}m`;
-        };
+<div class="card">
+    <div class="info" id="status">Đang tự động quét tọa độ GPS...</div>
+    <div id="map"></div>
+</div>
 
-        // 2. Hàm gọi sang Native App
-        function requestLocation() {
-            document.getElementById('result').innerText = "Đang xin tọa độ từ App...";
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+    let map, marker;
 
-            // Kiểm tra Android Native Bridge
-            if (window.AndroidBridge && typeof window.AndroidBridge.getGPS === 'function') {
-                window.AndroidBridge.getGPS();
-            } 
-            // Kiểm tra iOS Native Bridge (WKWebView)
-            else if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.getGPS) {
-                window.webkit.messageHandlers.getGPS.postMessage(null);
-            } 
-            // Fallback: Mở bằng trình duyệt ngoài
-            else {
-                fallbackWebLocation();
-            }
+    // Tự động chạy ngay khi người dùng mở link trong Zalo
+    window.addEventListener('DOMContentLoaded', () => {
+        autoGetGPS();
+    });
+
+    function autoGetGPS() {
+        if ("geolocation" in navigator) {
+            navigator.geolocation.getCurrentPosition(
+                (pos) => {
+                    const lat = pos.coords.latitude;
+                    const lon = pos.coords.longitude;
+                    const accuracy = pos.coords.accuracy;
+
+                    document.getElementById('status').innerHTML = 
+                        `<b>Đã xác thực vị trí!</b><br>` +
+                        `<b>Tọa độ:</b> ${lat.toFixed(6)}, ${lon.toFixed(6)}<br>` +
+                        `<b>Sai số:</b> ~${Math.round(accuracy)} mét`;
+
+                    showMap(lat, lon);
+                    sendGpsToServer(lat, lon); // Gửi dữ liệu về Server nếu cần
+                },
+                (err) => {
+                    document.getElementById('status').innerHTML = 
+                        `<span style="color:red">Chưa lấy được GPS: ${err.message}</span>`;
+                },
+                { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+            );
         }
+    }
 
-        function fallbackWebLocation() {
-            if ("geolocation" in navigator) {
-                navigator.geolocation.getCurrentPosition(
-                    pos => window.onNativeLocationReceived(pos.coords.latitude, pos.coords.longitude, pos.coords.accuracy),
-                    err => document.getElementById('result').innerText = "Lỗi web: " + err.message
-                );
-            }
+    function showMap(lat, lon) {
+        if (!map) {
+            map = L.map('map').setView([lat, lon], 17);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+        } else {
+            map.setView([lat, lon], 17);
         }
-    </script>
+        if (marker) marker.setLatLng([lat, lon]);
+        else marker = L.marker([lat, lon]).addTo(map);
+    }
+
+    // Hàm gửi tọa độ về Backend/API của bạn
+    function sendGpsToServer(lat, lon) {
+        /*
+        fetch('https://api.yourdomain.com/save-location', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ latitude: lat, longitude: lon, time: new Date() })
+        });
+        */
+        console.log("Dữ liệu sẵn sàng gửi:", lat, lon);
+    }
+</script>
 </body>
 </html>
