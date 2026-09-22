@@ -1,80 +1,96 @@
-<!DOCTYPE html>
-<html lang="vi">
+<!doctype html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zalo GPS Tracker</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <style>
-        body { font-family: Arial, sans-serif; margin: 0; padding: 10px; background: #f0f2f5; }
-        .card { background: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
-        #map { height: 300px; width: 100%; margin-top: 10px; border-radius: 8px; }
-        .info { font-size: 14px; line-height: 1.6; }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NovelBlush — Translated Web Novels</title>
+<meta name="description" content="NovelBlush is a reading app for translated web novels: romance, Boys Love, Girls Love, historical, rebirth and transmigration stories in five languages.">
+<style>
+  :root{
+    color-scheme:light dark;
+    --bg:#fdf0f3; --ink:#2b2024; --muted:#6b5560;
+    --brand:#b5607a; --head:#7a3048;
+    --panel:#fff; --line:#f0cbd5;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  }
+  @media(prefers-color-scheme:dark){
+    :root{--bg:#171316;--ink:#f8edf1;--muted:#bda5b0;--brand:#e8a0b0;--head:#e8a0b0;--panel:#211a1e;--line:#573745}
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);line-height:1.65}
+  main{max-width:760px;margin:0 auto;padding:56px 20px 80px}
+  .brand{color:var(--brand);font-weight:800;letter-spacing:.3px}
+  h1{color:var(--head);font-size:34px;margin:6px 0 4px;line-height:1.2}
+  .tagline{color:var(--muted);font-size:17px;margin:0 0 28px}
+  h2{font-size:19px;margin:32px 0 8px;color:var(--head)}
+  p{margin:8px 0}
+  a{color:var(--brand);font-weight:700}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:22px;margin-top:18px}
+  ul{margin:8px 0;padding-left:20px}
+  li{margin:5px 0}
+  .grid{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 0;padding:0;list-style:none}
+  .grid li{background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:4px 12px;font-size:14px;margin:0}
+  .cta{display:inline-block;background:var(--brand);color:#fff;text-decoration:none;
+       padding:12px 22px;border-radius:999px;font-weight:800;margin-top:6px}
+  .note{color:var(--muted);font-size:14px}
+  footer{margin-top:44px;padding-top:20px;border-top:1px solid var(--line);color:var(--muted);font-size:14px}
+  footer a{font-weight:600}
+</style>
 </head>
 <body>
+<main>
+  <div class="brand">NovelBlush</div>
+  <h1>Translated web novels, a new chapter every day</h1>
+  <p class="tagline">Stories that make you Blush~</p>
 
-<div class="card">
-    <div class="info" id="status">Đang tự động quét tọa độ GPS...</div>
-    <div id="map"></div>
-</div>
+  <p>NovelBlush is a mobile reading app for translated web novels. Readers follow
+  long-running serialised stories — romance, Boys&nbsp;Love, Girls&nbsp;Love,
+  historical, rebirth and transmigration — with new chapters added daily.</p>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script>
-    let map, marker;
+  <!-- TODO (owner): replace with the real App Store listing URL once you have it. -->
+  <a class="cta" href="#">Download on the App Store</a>
 
-    // Tự động chạy ngay khi người dùng mở link trong Zalo
-    window.addEventListener('DOMContentLoaded', () => {
-        autoGetGPS();
-    });
+  <div class="panel">
+    <h2>What the app does</h2>
+    <ul>
+      <li>A catalogue of over 37,000 novels, updated with new chapters every day</li>
+      <li>Recommendations based on the genres you choose</li>
+      <li>VIP offline reading — keep up to 100 chapters on your device</li>
+      <li>Dark mode, adjustable text and a distraction-free reader</li>
+      <li>Dedicated Boys Love and Girls Love collections</li>
+    </ul>
 
-    function autoGetGPS() {
-        if ("geolocation" in navigator) {
-            navigator.geolocation.getCurrentPosition(
-                (pos) => {
-                    const lat = pos.coords.latitude;
-                    const lon = pos.coords.longitude;
-                    const accuracy = pos.coords.accuracy;
+    <h2>Available in</h2>
+    <ul class="grid">
+      <li>Tiếng Việt</li><li>English</li><li>Bahasa Indonesia</li><li>ไทย</li><li>Français</li>
+    </ul>
+  </div>
 
-                    document.getElementById('status').innerHTML = 
-                        `<b>Đã xác thực vị trí!</b><br>` +
-                        `<b>Tọa độ:</b> ${lat.toFixed(6)}, ${lon.toFixed(6)}<br>` +
-                        `<b>Sai số:</b> ~${Math.round(accuracy)} mét`;
+  <div class="panel">
+    <h2>Support</h2>
+    <p>Email <a href="mailto:novelblush89@gmail.com">novelblush89@gmail.com</a> with your
+    account email, your device type and a short description of the problem.
+    Never send a password, a payment card number or a one-time code.</p>
+    <p>Full help — purchases, subscriptions, account deletion — is on the
+    <a href="https://jdkksh.nguyenhuuduc22121992.workers.dev/api/mobile/v2/support">NovelBlush support page</a>.</p>
 
-                    showMap(lat, lon);
-                    sendGpsToServer(lat, lon); // Gửi dữ liệu về Server nếu cần
-                },
-                (err) => {
-                    document.getElementById('status').innerHTML = 
-                        `<span style="color:red">Chưa lấy được GPS: ${err.message}</span>`;
-                },
-                { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
-            );
-        }
-    }
+    <h2>Privacy</h2>
+    <p>Read the
+    <a href="https://www.termsfeed.com/live/dbf77739-fadc-4365-a777-5dcde04b01d6">NovelBlush Privacy Policy</a>.</p>
 
-    function showMap(lat, lon) {
-        if (!map) {
-            map = L.map('map').setView([lat, lon], 17);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-        } else {
-            map.setView([lat, lon], 17);
-        }
-        if (marker) marker.setLatLng([lat, lon]);
-        else marker = L.marker([lat, lon]).addTo(map);
-    }
+    <h2>Rights holders</h2>
+    <p>Authors, publishers, platforms and authorised rights holders may email
+    support with the work's URL and evidence of ownership or authorisation. We
+    review every request for removal, correction, attribution or restriction.</p>
+  </div>
 
-    // Hàm gửi tọa độ về Backend/API của bạn
-    function sendGpsToServer(lat, lon) {
-        /*
-        fetch('https://api.yourdomain.com/save-location', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ latitude: lat, longitude: lon, time: new Date() })
-        });
-        */
-        console.log("Dữ liệu sẵn sàng gửi:", lat, lon);
-    }
-</script>
+  <footer>
+    <!-- TODO (owner): replace with your registered company or trading name. -->
+    <p>© <span id="y">2026</span> NovelBlush. All rights reserved.</p>
+    <p>App Store bundle identifier <code>com.novel.pro.app</code> · Category: Books &amp; Reference</p>
+    <p><a href="mailto:novelblush89@gmail.com">novelblush89@gmail.com</a></p>
+  </footer>
+</main>
+<script>document.getElementById('y').textContent = new Date().getFullYear();</script>
 </body>
 </html>
